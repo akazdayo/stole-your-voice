@@ -11,3 +11,6 @@ wheels/
 node_modules/
 .codex
 .env
+
+result
+result-1
