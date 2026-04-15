@@ -1,0 +1,3 @@
+[submodule "Irodori-TTS"]
+	path = Irodori-TTS
+	url = git@github.com:Aratako/Irodori-TTS.git
