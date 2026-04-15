@@ -1,0 +1,39 @@
+services:
+  irodori-tts:
+    image: irodori-tts:local
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: cdi
+              device_ids:
+                - nvidia.com/gpu=all
+              capabilities: [gpu]
+    ports:
+      - "7860:7860"
+    volumes:
+      - irodori_work:/work
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:7860/ >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5m
+
+  voice-clone-bot:
+    image: voice-clone-bot:local
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      IRODORI_API_BASE_URL: http://irodori-tts:7860/
+    depends_on:
+      irodori-tts:
+        condition: service_healthy
+    volumes:
+      - bot_work:/work
+
+volumes:
+  bot_work:
+  irodori_work:
