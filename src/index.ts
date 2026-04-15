@@ -23,9 +23,9 @@ import {
 } from "discord.js";
 import prism from "prism-media";
 
-import { synthesizeReadoutWithGradio } from "./gradio_tts";
+import { synthesizeReadoutPcm } from "./tts";
 
-export const RECORDING_SECONDS = 180;
+export const RECORDING_SECONDS = 60;
 export const VOICE_CONNECTION_TIMEOUT_MS = 5_000;
 export const PCM_SAMPLE_RATE = 48_000;
 export const PCM_CHANNELS = 2;
@@ -265,7 +265,7 @@ export class VoiceCloneService {
       createAudioResourceFromPcm: createDefaultAudioResourceFromPcm,
       waitForPlayerIdle: waitForDefaultPlayerIdle,
       createOpusDecoder: createDefaultOpusDecoder,
-      synthesizeReadoutPcm: synthesizeReadoutWithGradio,
+      synthesizeReadoutPcm: synthesizeReadoutPcm,
       setRepeatingTimer: setInterval,
       clearRepeatingTimer: clearInterval,
       random: Math.random,

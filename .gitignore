@@ -14,3 +14,5 @@ node_modules/
 
 result
 result-1
+ref.*
+out.wav

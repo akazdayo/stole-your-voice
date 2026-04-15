@@ -55,7 +55,7 @@ function connectToGradio(baseUrl: string): Promise<GradioClientLike> {
   return Client.connect(baseUrl);
 }
 
-async function convertWavToPcmWithFfmpeg(wavBytes: Buffer): Promise<Buffer> {
+export async function convertWavToPcmWithFfmpeg(wavBytes: Buffer): Promise<Buffer> {
   const child = spawn("ffmpeg", [
     "-loglevel",
     "error",
