@@ -18,6 +18,15 @@ cp .env.example .env
 
 ```dotenv
 DISCORD_TOKEN=your-bot-token
+
+# TTS バックエンドを選択します。"irodori"（デフォルト）または "omnivoice"
+# TTS_BACKEND=irodori
+
+# Irodori-TTS の接続先（デフォルト: http://127.0.0.1:7860/）
+# IRODORI_API_BASE_URL=http://127.0.0.1:7860/
+
+# Omni-Voice の接続先（デフォルト: http://127.0.0.1:8000）
+# OMNIVOICE_API_BASE_URL=http://127.0.0.1:8000
 ```
 
 2. Nix で Docker image をビルドします。
@@ -72,6 +81,8 @@ nix run .#load-irodori-tts-image
 
 ## ローカルで直接起動する
 
+### Irodori-TTS を使う場合
+
 1. `Irodori-TTS` 側の API サーバーを起動します。
 
 ```bash
@@ -83,6 +94,33 @@ uv run python gradio_app.py --server-name 127.0.0.1 --server-port 7860
 
 ```bash
 export IRODORI_API_BASE_URL=http://127.0.0.1:7860/
+```
+
+3. Bot を起動します。
+
+```bash
+bun run src/index.ts
+```
+
+### Omni-Voice を使う場合
+
+`Omni-Voice` は FastAPI サーバーです。CUDA 対応 GPU が必要です。
+
+1. `Omni-Voice` 側の API サーバーを起動します。
+
+```bash
+cd Omni-Voice
+uv run fastapi run main.py --port 8000
+```
+
+初回起動時はモデル (`k2-fsa/OmniVoice`) がダウンロードされます。
+
+2. Bot 側でバックエンドを指定します。
+
+```bash
+export TTS_BACKEND=omnivoice
+# 接続先を変更する場合（デフォルト: http://127.0.0.1:8000）
+# export OMNIVOICE_API_BASE_URL=http://127.0.0.1:8000
 ```
 
 3. Bot を起動します。
